@@ -60,10 +60,12 @@ public class CountryDetailActivity extends AppCompatActivity {
         StringBuilder borderText = new StringBuilder("Borders: ");
         List<String> bordersList = c.getBorders();
 
-        for (int i = 0; i < bordersList.size() - 2; ++i) {
-            borderText.append(bordersList.get(i)).append(", ");
+        if (bordersList.size() > 0) {
+            for (int i = 0; i < bordersList.size() - 2; ++i) {
+                borderText.append(bordersList.get(i)).append(", ");
+            }
+            borderText.append(bordersList.get(bordersList.size() - 1));
         }
-        borderText.append(bordersList.get(bordersList.size() - 1));
 
         borders.setText(borderText.toString());
     }
