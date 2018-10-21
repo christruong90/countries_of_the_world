@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.support.v7.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import com.ahmadrosid.svgloader.SvgLoader;
@@ -17,6 +18,15 @@ import java.util.Objects;
 import ca.bcit.ass1.truong_chow.model.Country;
 
 public class CountryDetailActivity extends AppCompatActivity {
+
+    private ShareActionProvider shareActionProvider;
+
+    private String countryName;
+    private String countryCapital;
+    private String countryRegion;
+    private String countryPopulation;
+    private String countryArea;
+    private String countryBorders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,28 +48,28 @@ public class CountryDetailActivity extends AppCompatActivity {
 
         // set name
         TextView name = findViewById(R.id.c_name);
-        String newName = "Name: " + Objects.requireNonNull(c).getName();
-        name.setText(newName);
+        countryName = "Name: " + Objects.requireNonNull(c).getName();
+        name.setText(countryName);
 
         // set capital
         TextView capital = findViewById(R.id.c_capital);
-        String newCapital = "Capital: " + c.getCapital();
-        capital.setText(newCapital);
+        countryCapital = "Capital: " + c.getCapital();
+        capital.setText(countryCapital);
 
         // set region
         TextView region = findViewById(R.id.c_region);
-        String newRegion = "Region: " + c.getRegion();
-        region.setText(newRegion);
+        countryRegion = "Region: " + c.getRegion();
+        region.setText(countryRegion);
 
         // set population
         TextView population = findViewById(R.id.c_population);
-        String newPopulation = "Population: " + String.valueOf(c.getPopulation());
-        population.setText(newPopulation);
+        countryPopulation = "Population: " + String.valueOf(c.getPopulation());
+        population.setText(countryPopulation);
 
         // set area
         TextView area = findViewById(R.id.c_area);
-        String newArea = "Area: " + String.valueOf(c.getArea());
-        area.setText(newArea);
+        countryArea = "Area: " + String.valueOf(c.getArea());
+        area.setText(countryArea);
 
         // set borders
         TextView borders = findViewById(R.id.c_borders);
@@ -74,17 +84,32 @@ public class CountryDetailActivity extends AppCompatActivity {
             borderText.append(bordersList.get(bordersList.size() - 1));
         }
 
-        borders.setText(borderText.toString());
+        countryBorders = borderText.toString();
+
+        borders.setText(countryBorders);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-//        MenuItem menuItem = menu.findItem(R.id.action_get_device_details);
-//        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
-//        setShareActionIntent("Some dummy text");
+        MenuItem menuItem = menu.findItem(R.id.action_get_device_details);
+        shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        setShareActionIntent(
+                            countryName + "\n"
+                            + countryCapital + "\n"
+                            + countryRegion + "\n"
+                            + countryPopulation + "\n"
+                            + countryArea + "\n"
+                            + countryBorders);
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setShareActionIntent(String text) {
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.setType("text/plain");
+        i.putExtra(Intent.EXTRA_TEXT, text);
+        shareActionProvider.setShareIntent(i);
     }
 }
