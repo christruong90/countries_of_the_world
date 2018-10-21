@@ -1,6 +1,8 @@
 package ca.bcit.ass1.truong_chow;
 
 import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.support.v7.widget.ShareActionProvider;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ahmadrosid.svgloader.SvgLoader;
 
@@ -93,7 +96,7 @@ public class CountryDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        MenuItem menuItem = menu.findItem(R.id.action_get_device_details);
+        MenuItem menuItem = menu.findItem(R.id.action_get_country_details);
         shareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
         setShareActionIntent(
                             countryName + "\n"
@@ -111,5 +114,19 @@ public class CountryDetailActivity extends AppCompatActivity {
         i.setType("text/plain");
         i.putExtra(Intent.EXTRA_TEXT, text);
         shareActionProvider.setShareIntent(i);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String deviceData = "";
+        deviceData += "Manufacturer: " + Build.MANUFACTURER + "\n";
+        deviceData += "Model: " + Build.MODEL + "\n";
+        deviceData += "Version: " + Build.VERSION.SDK_INT+ "\n";
+        deviceData += "Version Release: " + Build.VERSION.RELEASE + "\n";
+        deviceData += "Serial Number: " + Settings.Secure.getString(getApplicationContext().getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
+        Toast.makeText(getApplicationContext(), deviceData, Toast.LENGTH_LONG).show();
+        return true;
     }
 }
