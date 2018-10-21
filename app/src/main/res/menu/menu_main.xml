@@ -6,8 +6,13 @@
     tools:context=".activity.CountryDetailsActivity">
 
     <item
-        android:id="@+id/action_get_device_details"
-        android:title="@string/my_device"
+        android:id="@+id/action_get_country_details"
+        android:title="@string/country_details"
         app:showAsAction="ifRoom"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider" />
+
+    <item
+        android:id="@+id/action_get_device_details"
+        android:title="@string/my_device"
+        app:showAsAction="never" />
 </menu>
